@@ -1,0 +1,37 @@
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    username: vhrdev
+    password: '0819'
+    url: jdbc:mysql://localhost:3306/vhr?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+  rabbitmq:
+    username: vhrdev
+    password: vhrdev
+    host: 127.0.0.1
+    publisher-confirms: true
+    publisher-returns: true
+  redis:
+    host: 127.0.0.1
+    database: 0
+    port: 6379
+    password: 0819
+  cache:
+    cache-names: menus_cache
+  servlet:
+    # 文件上传
+    multipart:
+      # 单个文件最大大小
+      max-file-size: 10MB
+      # 请求最大大小
+      max-request-size: 20MB
+      # enable support of multipart uploads
+      enabled: true
+server:
+  port: 8081
+  compression:
+    enabled: true
+fastdfs:
+  nginx:
+    host: http://127.0.0.1/
+proj:
+  host: http://localhost

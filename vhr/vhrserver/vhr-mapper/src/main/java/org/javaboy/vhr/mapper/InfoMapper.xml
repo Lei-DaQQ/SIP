@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.javaboy.vhr.mapper.InfoMapper">
+
+    <resultMap id="BaseResultMap" type="org.javaboy.vhr.model.Info">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="desp" property="desp" jdbcType="VARCHAR"/>
+        <result column="fname" property="fName" jdbcType="VARCHAR"/>
+        <result column="link" property="link" jdbcType="VARCHAR"/>
+        <result column="hr_name" property="hrName"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, link, desp, fname, hrid
+    </sql>
+
+    <insert id="insertOne">
+        insert into info (link, desp, fname, hrid)
+        values(#{link}, #{desp}, #{fName},#{hrId})
+    </insert>
+
+    <update id="updateOne">
+        update info set desp=#{desp}, link=#{link},
+                             fname=#{fName}, hrid=#{hrId}
+        where id=#{id} and is_deleted = 0
+    </update>
+
+    <update id="deleteById">
+        update info set is_deleted = 1 where id = #{id} and is_deleted = 0
+    </update>
+
+    <select id="selectByPage" resultMap="BaseResultMap">
+        select
+        sd.*, hr.name hr_name
+        from info sd, hr
+        where sd.hrid = hr.id and is_deleted = 0
+        <if test="keyword != null">
+            and fname like concat('%',#{keyword},'%')
+        </if>
+        <if test="page != null and size != null">
+            limit #{page}, #{size}
+        </if>
+    </select>
+
+    <select id="getTotal" resultType="java.lang.Long">
+        select count(*)
+        from info
+        where is_deleted = 0
+        <if test="keyword != null">
+            and fname like concat('%',#{keyword},'%')
+        </if>
+    </select>
+
+</mapper>

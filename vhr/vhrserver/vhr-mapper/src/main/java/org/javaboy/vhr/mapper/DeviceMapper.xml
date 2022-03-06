@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.javaboy.vhr.mapper.DeviceMapper">
+    <resultMap id="BaseResultMap" type="org.javaboy.vhr.model.Device">
+        <id column="id" property="id" jdbcType="VARCHAR" />
+        <result column="workID" property="workID" jdbcType="VARCHAR" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="store" property="store" jdbcType="VARCHAR" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        id, workID, name, store
+    </sql>
+    <select id="getAllDevices" resultMap="BaseResultMap">
+        select * from device;
+    </select>
+    <select id="selectByWorkID" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from device
+        where workID = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteById" parameterType="java.lang.String" >
+        delete from device
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="org.javaboy.vhr.model.Device" >
+        insert into device (id, workID, name, store)
+        values (#{id,jdbcType=VARCHAR},  #{workID,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{store,jdbcType=VARCHAR})
+    </insert>
+    <update id="updateById" parameterType="org.javaboy.vhr.model.Device" >
+        update device
+        set workID = #{workID,jdbcType=VARCHAR},
+            name = #{name,jdbcType=VARCHAR},
+            store = #{store,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+</mapper>
